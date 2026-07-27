@@ -140,7 +140,7 @@ python agente.py
 
 La aplicación fue desplegada en Oracle Cloud Infrastructure (OCI Compute).
 
-- **URL pública:** [Agregar link una vez desplegado]
+- **URL pública:** http://167.126.25.38:5000
 - **Captura de pantalla:** [Agregar screenshot del deploy]
 
 ---
