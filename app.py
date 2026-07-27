@@ -1,11 +1,10 @@
 import os
-import shutil
 from flask import Flask, request, jsonify, render_template_string
 from dotenv import load_dotenv
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_cohere import ChatCohere
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_cohere import CohereEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain_core.output_parsers import StrOutputParser
@@ -43,7 +42,6 @@ HTML = """
   footer input { flex: 1; padding: 10px 16px; border-radius: 8px; border: 1px solid #444; background: #0f0f1a; color: #fff; font-size: 14px; outline: none; }
   footer input:focus { border-color: #4a90d9; }
   footer button { padding: 10px 20px; background: #4a90d9; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
-  footer button:hover { background: #357abd; }
   footer button:disabled { background: #333; cursor: not-allowed; }
 </style>
 </head>
@@ -66,14 +64,11 @@ async function enviar() {
   const chat = document.getElementById('chat');
   const pregunta = input.value.trim();
   if (!pregunta) return;
-
   input.value = '';
   btn.disabled = true;
-
   chat.innerHTML += `<div class="msg user">${pregunta}</div>`;
   chat.innerHTML += `<div class="msg bot thinking" id="thinking">🔍 Buscando en el manual...</div>`;
   chat.scrollTop = chat.scrollHeight;
-
   try {
     const res = await fetch('/preguntar', {
       method: 'POST',
@@ -87,7 +82,6 @@ async function enviar() {
     document.getElementById('thinking').remove();
     chat.innerHTML += `<div class="msg bot">❌ Error al consultar el agente.</div>`;
   }
-
   btn.disabled = false;
   chat.scrollTop = chat.scrollHeight;
 }
@@ -99,14 +93,12 @@ async function enviar() {
 def inicializar():
     global cadena, retriever
     print("🧠 Cargando modelo de embeddings...")
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
-    )
+    embeddings = CohereEmbeddings(model="embed-multilingual-v3.0", cohere_api_key=COHERE_API_KEY)
     if not os.path.exists(INDEX_PATH):
         print("📄 Procesando PDF...")
         loader = PyPDFLoader(PDF_PATH)
         paginas = loader.load()
-        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
         fragmentos = splitter.split_documents(paginas)
         vectorstore = FAISS.from_documents(fragmentos, embeddings)
         vectorstore.save_local(INDEX_PATH)
