@@ -141,7 +141,8 @@ python agente.py
 La aplicación fue desplegada en Oracle Cloud Infrastructure (OCI Compute).
 
 - **URL pública:** http://167.126.25.38:5000
-- **Captura de pantalla:** [Agregar screenshot del deploy]
+<img width="2561" height="951" alt="agentee" src="https://github.com/user-attachments/assets/f23e8340-7ee2-4150-a147-72fa1a5c8346" />
+
 
 ---
 
@@ -162,4 +163,4 @@ agente-soporte-it-casinos/
 
 ## 👤 Autor
 
-Desarrollado para el Challenge Agente de Alura Latam.
+Desarrollado por Estefania Alejandra Uribe para el Challenge Agente de Alura Latam.
