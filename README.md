@@ -47,8 +47,8 @@ PDF → PyPDF (extrae texto) → RecursiveTextSplitter (divide en fragmentos)
 |---|---|---|
 | Lenguaje | Python 3.10+ | Lenguaje principal |
 | Framework de agente | LangChain | Orquestación del agente y cadena QA |
-| Modelo de lenguaje | Google Gemini 1.5 Flash | Generación de respuestas |
-| Embeddings | Google Embedding-001 | Conversión de texto a vectores |
+| Modelo de lenguaje | Cohere Command-R Plus | Generación de respuestas |
+| Embeddings | Cohere Embeddings Multilingual v3 | Conversión de texto a vectores |
 | Base vectorial | FAISS | Búsqueda de similitud semántica |
 | Lectura de PDF | PyPDF | Extracción de texto del manual |
 | Variables de entorno | python-dotenv | Gestión segura de API keys |
